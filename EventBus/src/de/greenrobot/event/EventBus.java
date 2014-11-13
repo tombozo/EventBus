@@ -19,6 +19,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -212,6 +213,11 @@ public class EventBus {
         }
     }
 
+    public synchronized void registerMethod(Object subscriber, Method method, ThreadMode threadMode, Class<?> eventType, boolean sticky, int priority) {
+        SubscriberMethod subscriberMethod = new SubscriberMethod(method, threadMode, eventType);
+        subscribe(subscriber, subscriberMethod, sticky, priority);
+    }
+    
     public synchronized boolean isRegistered(Object subscriber) {
         return typesBySubscriber.containsKey(subscriber);
     }
